@@ -1,4 +1,4 @@
-import {SpotifyApi} from '@spotify/web-api-ts-sdk';
+import {AuthenticationResponse, SpotifyApi} from '@spotify/web-api-ts-sdk';
 
 // Choose one of the following:
 const sdk = SpotifyApi.withUserAuthorization(
@@ -10,6 +10,11 @@ const sdk = SpotifyApi.withUserAuthorization(
     ],
 );
 
-export async function loginToSpotify() {
-    await sdk.authenticate()
+export function startLoginToSpotify() {
+    sdk.authenticate()
+}
+
+export async function completeLoginToSpotify(): Promise<AuthenticationResponse>  {
+    // authenticate will take the parameters from the current url path
+    return await sdk.authenticate()
 }
