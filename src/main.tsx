@@ -6,11 +6,16 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
+import {SpotifyCallback} from "./spotify/spotify-callback.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
+    },
+    {
+        path: "/oauth/spotify/callback",
+        element: <SpotifyCallback />,
     },
 ]);
 
