@@ -19,7 +19,7 @@ function getSpotifySdk() {
 }
 
 export function startLoginToSpotify() {
-    getSpotifySdk().authenticate()
+    getSpotifySdk().authenticate();
 }
 
 export async function completeLoginToSpotify(): Promise<AuthenticationResponse>  {
@@ -29,4 +29,8 @@ export async function completeLoginToSpotify(): Promise<AuthenticationResponse> 
 
 export function isAuthenticated() {
     return getSpotifySdk().getAccessToken() != null;
+}
+
+export function getAccessToken() {
+    return getSpotifySdk().getAccessToken();
 }

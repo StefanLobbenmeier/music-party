@@ -1,11 +1,22 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import {SpotifyLoginButton} from "./spotify/spotify-login-button.tsx";
+import {getAccessToken} from "./lib/spotify-client.ts";
+import {AccessToken} from "@spotify/web-api-ts-sdk";
+import {SpotifyPlayer} from "./spotify/spotify-player.tsx";
 
 function App() {
   const [count, setCount] = useState(0)
+
+    const [spotifyToken, setSpotifyToken] = useState<AccessToken>(
+    )
+    useEffect(() => {
+        getAccessToken().then((token) => {
+            if (token != null) setSpotifyToken(token)
+        })
+    }, []);
 
   return (
     <>
@@ -22,7 +33,12 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <SpotifyLoginButton />
+
+          {
+              spotifyToken == null ?
+              <SpotifyLoginButton/> : <SpotifyPlayer token={spotifyToken}/>
+          }
+
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
