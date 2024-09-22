@@ -12,6 +12,7 @@ function getSpotifySdk() {
             [
                 "playlist-read-private",
                 "playlist-read-collaborative",
+                "streaming"
             ],
         );
     }
@@ -20,6 +21,10 @@ function getSpotifySdk() {
 
 export function startLoginToSpotify() {
     getSpotifySdk().authenticate();
+}
+
+export function logout() {
+    getSpotifySdk().logOut();
 }
 
 export async function completeLoginToSpotify(): Promise<AuthenticationResponse>  {

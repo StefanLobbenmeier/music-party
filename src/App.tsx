@@ -6,6 +6,7 @@ import {SpotifyLoginButton} from "./spotify/spotify-login-button.tsx";
 import {getAccessToken} from "./lib/spotify-client.ts";
 import {AccessToken} from "@spotify/web-api-ts-sdk";
 import {SpotifyPlayer} from "./spotify/spotify-player.tsx";
+import {SpotifyLogoutButton} from "./spotify/spotify-logout-button.tsx";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -38,6 +39,7 @@ function App() {
               spotifyToken == null ?
               <SpotifyLoginButton/> : <SpotifyPlayer token={spotifyToken}/>
           }
+          <SpotifyLogoutButton/>
 
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR

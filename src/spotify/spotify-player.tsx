@@ -1,24 +1,22 @@
-import {useEffect, useState} from "react";
+import {useCallback } from "react";
 import {AccessToken} from "@spotify/web-api-ts-sdk";
+import {WebPlaybackSDK} from "react-spotify-web-playback-sdk";
+import {TogglePlay} from "./toggle-play.tsx";
+import {SongTitle} from "./song-title.tsx";
 
 
 export function SpotifyPlayer(props: { token: AccessToken; }) {
-    const [player, setPlayer] = useState<Spotify.Player>()
-
-    useEffect(() => {
-        window.onSpotifyWebPlaybackSDKReady = () => {
-            const token = props.token;
-            setPlayer( new Spotify.Player({
-                name: 'Web Playback SDK Quick Start Player',
-                getOAuthToken: cb => { cb(token); },
-                volume: 0.5
-            }));
-    }});
+    const getOAuthToken = useCallback(callback => callback(props.token.access_token), []);
 
     return (
-        <>
-            <script src="https://sdk.scdn.co/spotify-player.js"></script>
-            <div> Spotify Player </div>
-        </>
+        <WebPlaybackSDK
+            getOAuthToken={getOAuthToken}
+            initialVolume={0.5}
+            initialDeviceName="music-party">
+
+            <TogglePlay />
+            <SongTitle />
+
+        </WebPlaybackSDK>
     );
 }
