@@ -4,7 +4,10 @@ import {
 export function TogglePlay() {
   const player = useSpotifyPlayer();
 
-  if (player === null) return null;
+    if (player === null) return <div>No Player Found</div>;
 
-  return <button onClick={player.togglePlay}>Pause / Play</button>;
-};
+  return <button onClick={() => {
+      console.log("player", player)
+      player.togglePlay();
+  }}>Pause / Play</button>;
+}

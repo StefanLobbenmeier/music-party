@@ -3,6 +3,7 @@ import {AccessToken} from "@spotify/web-api-ts-sdk";
 import {WebPlaybackSDK} from "react-spotify-web-playback-sdk";
 import {TogglePlay} from "./toggle-play.tsx";
 import {SongTitle} from "./song-title.tsx";
+import {PlayCarlyRaeJepsen} from "./tmp.tsx";
 
 
 export function SpotifyPlayer(props: { token: AccessToken; }) {
@@ -16,6 +17,7 @@ export function SpotifyPlayer(props: { token: AccessToken; }) {
 
             <TogglePlay />
             <SongTitle />
+            <PlayCarlyRaeJepsen token={props.token} />
 
         </WebPlaybackSDK>
     );
