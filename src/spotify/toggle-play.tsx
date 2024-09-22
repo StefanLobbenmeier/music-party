@@ -8,6 +8,8 @@ export function TogglePlay() {
 
   return <button onClick={() => {
       console.log("player", player)
+
+      player.activateElement();
       player.togglePlay();
   }}>Pause / Play</button>;
 }

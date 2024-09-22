@@ -1,12 +1,16 @@
-import {usePlayerDevice} from "react-spotify-web-playback-sdk";
+import {usePlayerDevice, useSpotifyPlayer} from "react-spotify-web-playback-sdk";
 import {AccessToken} from "@spotify/web-api-ts-sdk";
 
 const SPOTIFY_URI = "spotify:track:7xGfFoTpQ2E7fRF5lN10tr";
 export function PlayCarlyRaeJepsen (props: { token: AccessToken; }) {
     const device = usePlayerDevice();
+    const player = useSpotifyPlayer();
 
     const playCarlyRaeJepsen = () => {
         if (device === null) return;
+
+        player?.activateElement();
+
 
         fetch(
             `https://api.spotify.com/v1/me/player/play?device_id=${device.device_id}`,
