@@ -7,7 +7,7 @@ import {PlayCarlyRaeJepsen} from "./tmp.tsx";
 
 
 export function SpotifyPlayer(props: { token: AccessToken; }) {
-    const getOAuthToken = useCallback(callback => callback(props.token.access_token), []);
+    const getOAuthToken = useCallback<Spotify.PlayerInit["getOAuthToken"]>((callback) => callback(props.token.access_token), []);
 
     return (
         <WebPlaybackSDK
