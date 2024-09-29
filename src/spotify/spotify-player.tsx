@@ -17,7 +17,7 @@ export function SpotifyPlayer(props: { token: AccessToken; }) {
 
             <TogglePlay/>
             <SongTitle/>
-            <PlaySongFromQrCode token={props.token}/>
+            <PlaySongFromQrCode/>
 
         </WebPlaybackSDK>
     );

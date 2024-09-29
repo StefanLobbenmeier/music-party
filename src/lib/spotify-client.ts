@@ -3,7 +3,7 @@
 import {AuthenticationResponse, SpotifyApi} from '@spotify/web-api-ts-sdk';
 
 let sdk: SpotifyApi;
-function getSpotifySdk() {
+export function getSpotifySdk() {
     if (sdk == null) {
         const host = window.location.protocol + "//" + window.location.host;
         sdk = SpotifyApi.withUserAuthorization(
