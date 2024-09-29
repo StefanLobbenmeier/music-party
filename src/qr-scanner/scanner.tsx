@@ -2,15 +2,15 @@ import {useEffect, useRef} from "react";
 import QrScanner from "qr-scanner";
 
 
-export function Scanner(onResult: (result: QrScanner.ScanResult) => void, onError: (error: Error | string) => void) {
+export function Scanner(props: { onResult: (result: QrScanner.ScanResult) => void, onError: (error: Error | string) => void })  {
     const videoRef = useRef<HTMLVideoElement>(null)
 
     useEffect(() => {
         let scanner = null
         if (!videoRef.current) return
 
-        scanner = new QrScanner(videoRef.current, onResult, {
-            onDecodeError: onError,
+        scanner = new QrScanner(videoRef.current, props.onResult, {
+            onDecodeError: props.onError,
             returnDetailedScanResult: true,
             preferredCamera: 'environment',
             maxScansPerSecond: 2,

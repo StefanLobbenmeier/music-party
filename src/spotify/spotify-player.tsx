@@ -1,9 +1,9 @@
-import {useCallback } from "react";
+import {useCallback} from "react";
 import {AccessToken} from "@spotify/web-api-ts-sdk";
 import {WebPlaybackSDK} from "react-spotify-web-playback-sdk";
 import {TogglePlay} from "./toggle-play.tsx";
 import {SongTitle} from "./song-title.tsx";
-import {PlayCarlyRaeJepsen} from "./tmp.tsx";
+import {PlaySongFromQrCode} from "./play-song-from-qr-code.tsx";
 
 
 export function SpotifyPlayer(props: { token: AccessToken; }) {
@@ -15,9 +15,9 @@ export function SpotifyPlayer(props: { token: AccessToken; }) {
             initialVolume={0.5}
             initialDeviceName="music-party">
 
-            <TogglePlay />
-            <SongTitle />
-            <PlayCarlyRaeJepsen token={props.token} />
+            <TogglePlay/>
+            <SongTitle/>
+            <PlaySongFromQrCode token={props.token}/>
 
         </WebPlaybackSDK>
     );

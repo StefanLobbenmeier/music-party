@@ -4,4 +4,4 @@ export function SongTitle() {
   const playbackState = usePlaybackState();
 
   return <p>Current song: {playbackState?.track_window.current_track.name}</p>;
-};
+}
