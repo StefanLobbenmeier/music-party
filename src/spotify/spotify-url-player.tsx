@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {usePlayerDevice } from "react-spotify-web-playback-sdk";
 import {useEffect} from "react";
 import {getSpotifySdk} from "../lib/spotify-client.ts";
+import {TogglePlay} from "./toggle-play.tsx";
 
 export function SpotifyUrlPlayer() {
     const {songId} = useParams();
@@ -13,15 +14,10 @@ export function SpotifyUrlPlayer() {
         }
     }, [songId]);
 
-    useEffect(() => {
-        if (songId) {
-            getSpotifySdk().search("coldplay moon", ["track"]).then(
-                console.log
-            )
-        }
-    }, [songId]);
-
-    return <div>Song id is {songId}</div>
+    return <>
+        <div>Song id is {songId}</div>
+        <TogglePlay />
+    </>
 }
 
 // https://open.spotify.com/track/3RIYlQ20buPfanKbSyGh98?si=1addc55fe7874b94
