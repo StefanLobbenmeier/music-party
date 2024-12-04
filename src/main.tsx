@@ -7,6 +7,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import {SpotifyCallback} from "./spotify/spotify-callback.tsx";
+import {SpotifyUrlPlayer} from "./spotify/spotify-url-player.tsx";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     {
         path: "/oauth/spotify/callback",
         element: <SpotifyCallback />,
+    },
+    {
+        path: "/play/spotify/{songId}",
+        element: <SpotifyUrlPlayer/>,
     },
 ]);
 
