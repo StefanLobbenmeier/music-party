@@ -2,7 +2,6 @@ import {usePlayerDevice, useSpotifyPlayer} from "react-spotify-web-playback-sdk"
 import { TrackItem} from "@spotify/web-api-ts-sdk";
 import { useEffect, useState} from "react";
 import {Scanner} from "../qr-scanner/scanner.tsx";
-import QrScanner from "qr-scanner";
 import {resolveSongUrl} from "../lib/resolve-song-url.ts";
 import {getSpotifySdk} from "../lib/spotify-client.ts";
 
@@ -18,8 +17,8 @@ export function PlaySongFromQrCode () {
 
     const [song, setSong] = useState<string | null>(null);
     const [spotifyTrack, setSpotifyTrack] = useState<TrackItem>()
-    const qrCodeScanned = async (result: QrScanner.ScanResult) => {
-        const song = result.data;
+    const qrCodeScanned = async (result: string) => {
+        const song = result;
         setSong(song);
         const spotifyTrack = (await resolveSongUrl(song))!!;
         setSpotifyTrack(spotifyTrack!!);
