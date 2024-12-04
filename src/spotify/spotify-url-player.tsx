@@ -1,7 +1,29 @@
 import {useParams} from "react-router-dom";
+import {usePlayerDevice } from "react-spotify-web-playback-sdk";
+import {useEffect} from "react";
+import {getSpotifySdk} from "../lib/spotify-client.ts";
 
 export function SpotifyUrlPlayer() {
     const {songId} = useParams();
+    const device = usePlayerDevice();
+
+    useEffect(() => {
+        if (songId) {
+            getSpotifySdk().player.startResumePlayback(device?.device_id!!, undefined, [songId]);
+        }
+    }, [songId]);
+
+    useEffect(() => {
+        if (songId) {
+            getSpotifySdk().search("coldplay moon", ["track"]).then(
+                console.log
+            )
+        }
+    }, [songId]);
 
     return <div>Song id is {songId}</div>
 }
+
+// https://open.spotify.com/track/3RIYlQ20buPfanKbSyGh98?si=1addc55fe7874b94
+// spotify:track:5T7FLSnK2cQLfsP1hODPiC
+// https://localhost:5173/play/spotify/spotify:track:5T7FLSnK2cQLfsP1hODPiC

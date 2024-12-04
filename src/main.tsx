@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import {SpotifyCallback} from "./spotify/spotify-callback.tsx";
 import {SpotifyUrlPlayer} from "./spotify/spotify-url-player.tsx";
+import ContextProvider from "./context-provider.tsx";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-      <RouterProvider router={router} />
+      <ContextProvider>
+        <RouterProvider router={router} />
+      </ContextProvider>
   </React.StrictMode>,
 )
