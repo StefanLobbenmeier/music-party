@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         element: <SpotifyCallback />,
     },
     {
-        path: "/play/spotify/{songId}",
+        path: "/play/spotify/:songId",
         element: <SpotifyUrlPlayer/>,
     },
 ]);
