@@ -7,16 +7,17 @@ import {TogglePlay} from "./toggle-play.tsx";
 export function SpotifyUrlPlayer() {
     const {songId} = useParams();
     const device = usePlayerDevice();
+    const deviceId = device?.device_id;
 
     useEffect(() => {
-        if (songId) {
-            getSpotifySdk().player.startResumePlayback(device?.device_id!!, undefined, [songId]);
+        if (songId && deviceId) {
+            getSpotifySdk().player.startResumePlayback(deviceId!!, undefined, [songId]);
         }
-    }, [songId]);
+    }, [songId, deviceId]);
 
     return <>
         <div>Song id is {songId}</div>
-        <div>Device id is {device?.device_id}</div>
+        <div>Device id is {deviceId}</div>
         <TogglePlay />
     </>
 }
