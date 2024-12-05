@@ -3,7 +3,7 @@ import {resolveSongUrl} from "../lib/resolve-song-url.ts";
 import {useNavigate} from "react-router-dom";
 
 
-export function PlaySongFromQrCode () {
+export function ScanSongQrCode () {
     const navigate = useNavigate();
 
     const qrCodeScanned = async (result: string) => {

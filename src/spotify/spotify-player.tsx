@@ -2,7 +2,7 @@ import {AccessToken} from "@spotify/web-api-ts-sdk";
 import {WebPlaybackSDK} from "react-spotify-web-playback-sdk";
 import {TogglePlay} from "./toggle-play.tsx";
 import {SongTitle} from "./song-title.tsx";
-import {PlaySongFromQrCode} from "./play-song-from-qr-code.tsx";
+import {ScanSongQrCode} from "./scan-song-qr-code.tsx";
 
 
 export function SpotifyPlayer(props: { token: AccessToken; }) {
@@ -16,7 +16,7 @@ export function SpotifyPlayer(props: { token: AccessToken; }) {
 
             <TogglePlay/>
             <SongTitle/>
-            <PlaySongFromQrCode/>
+            <ScanSongQrCode/>
 
         </WebPlaybackSDK>
     );
