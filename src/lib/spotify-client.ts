@@ -3,6 +3,7 @@
 import {AuthenticationResponse, SpotifyApi} from '@spotify/web-api-ts-sdk';
 
 let sdk: SpotifyApi;
+
 export function getSpotifySdk() {
     if (sdk == null) {
         const host = window.location.protocol + "//" + window.location.host;
@@ -12,7 +13,9 @@ export function getSpotifySdk() {
             [
                 "playlist-read-private",
                 "playlist-read-collaborative",
-                "streaming"
+                "streaming",
+                "user-read-email",
+                "user-read-private",
             ],
         );
     }
@@ -27,7 +30,7 @@ export function logout() {
     getSpotifySdk().logOut();
 }
 
-export async function completeLoginToSpotify(): Promise<AuthenticationResponse>  {
+export async function completeLoginToSpotify(): Promise<AuthenticationResponse> {
     // authenticate will take the parameters from the current url path
     return await getSpotifySdk().authenticate()
 }
