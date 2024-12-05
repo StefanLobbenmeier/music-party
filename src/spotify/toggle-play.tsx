@@ -6,8 +6,8 @@ export function TogglePlay() {
 
     if (player === null) return <div>No Player Found</div>;
 
-  return <button onClick={() => {
-      player.activateElement();
-      player.togglePlay();
+  return <button onClick={async () => {
+      await player.activateElement();
+      await player.togglePlay();
   }}>Pause / Play</button>;
 }

@@ -5,6 +5,7 @@ import {getAccessToken} from "./lib/spotify-client.ts";
 import {AccessToken} from "@spotify/web-api-ts-sdk";
 import {SpotifyPlayer} from "./spotify/spotify-player.tsx";
 import {SpotifyLogoutButton} from "./spotify/spotify-logout-button.tsx";
+import {ScanSongQrCode} from "./spotify/scan-song-qr-code.tsx";
 
 function App() {
     const [spotifyToken, setSpotifyToken] = useState<AccessToken>(
@@ -20,7 +21,8 @@ function App() {
       <div className="card">
           {
               spotifyToken == null ?
-              <SpotifyLoginButton/> : <SpotifyPlayer token={spotifyToken}/>
+              <SpotifyLoginButton/> :
+              <ScanSongQrCode/>
           }
           <SpotifyLogoutButton/>
       </div>

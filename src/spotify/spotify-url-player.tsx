@@ -16,6 +16,7 @@ export function SpotifyUrlPlayer() {
 
     return <>
         <div>Song id is {songId}</div>
+        <div>Device id is {device?.device_id}</div>
         <TogglePlay />
     </>
 }
