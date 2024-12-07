@@ -1,6 +1,11 @@
 {
-  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "formatter": {
-    "indentStyle": "space"
-  }
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "files": { "ignoreUnknown": false, "ignore": [] },
+  "formatter": { "enabled": true, "indentStyle": "space" },
+  "organizeImports": { "enabled": true },
+  "linter": {
+    "enabled": true,
+    "rules": { "recommended": true }
+  },
+  "javascript": { "formatter": { "quoteStyle": "double" } }
 }
