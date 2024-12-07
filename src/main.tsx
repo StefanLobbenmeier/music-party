@@ -1,22 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import "./index.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { SpotifyCallback } from "./spotify/spotify-callback.tsx";
-import { SpotifyUrlPlayer } from "./spotify/spotify-url-player.tsx";
+import { BrowserRouter} from "react-router-dom";
 import ContextProvider from "./context-provider.tsx";
+import MusicPartyRoutes from "./routes/routes.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ContextProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/oauth/spotify/callback" element={<SpotifyCallback />} />
-          <Route path="/play/spotify/:songId" element={<SpotifyUrlPlayer />} />
-        </Routes>
-      </BrowserRouter>
+        <BrowserRouter>
+            <MusicPartyRoutes></MusicPartyRoutes>
+        </BrowserRouter>
     </ContextProvider>
   </React.StrictMode>,
 );
