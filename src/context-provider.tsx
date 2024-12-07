@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { WebPlaybackSDK } from "react-spotify-web-playback-sdk";
 import { getAccessToken, startLoginToSpotify } from "./lib/spotify-client.ts";
 

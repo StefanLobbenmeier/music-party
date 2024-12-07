@@ -7,6 +7,7 @@ export function TogglePlay() {
 
   return (
     <button
+      type="button"
       onClick={async () => {
         await player.activateElement();
         await player.togglePlay();

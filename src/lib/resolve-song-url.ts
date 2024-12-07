@@ -16,12 +16,12 @@ export async function resolveSongUrl(urlString: string) {
 
 async function resolveHitsterUrl(url: URL) {
   // pathname starts with / so first component is empty
-  let pathComponents = url.pathname.split("/");
+  const pathComponents = url.pathname.split("/");
   const country = pathComponents[1];
   const songId = pathComponents[2];
   const songIndex = Number(songId) - 1;
 
-  const playlistId = playlistIds.get(country)!!;
+  const playlistId = playlistIds.get(country)!;
 
   const playlistItems = await getSpotifySdk().playlists.getPlaylistItems(
     playlistId,

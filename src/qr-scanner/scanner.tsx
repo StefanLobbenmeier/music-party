@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
 import QrScanner from "qr-scanner";
+import { useEffect, useRef } from "react";
 
 export function Scanner(props: {
   onResult: (result: string) => void;
@@ -35,7 +35,7 @@ export function Scanner(props: {
     return () => {
       if (scanner) scanner.destroy();
     };
-  }, []);
+  }, [props.onResult, props.onError]);
 
   return (
     <div className="scanner fullscreen__panel">
