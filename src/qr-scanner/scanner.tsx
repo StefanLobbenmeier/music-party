@@ -1,34 +1,45 @@
-import {useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
 import QrScanner from "qr-scanner";
 
+export function Scanner(props: {
+  onResult: (result: string) => void;
+  onError: (error: Error | string) => void;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-export function Scanner(props: { onResult: (result: string) => void, onError: (error: Error | string) => void })  {
-    const videoRef = useRef<HTMLVideoElement>(null)
+  useEffect(() => {
+    let scanner = null;
+    if (!videoRef.current) return;
 
-    useEffect(() => {
-        let scanner = null
-        if (!videoRef.current) return
+    scanner = new QrScanner(
+      videoRef.current,
+      (scanResult) => {
+        props.onResult(scanResult.data);
+      },
+      {
+        onDecodeError: props.onError,
+        returnDetailedScanResult: true,
+        preferredCamera: "environment",
+        maxScansPerSecond: 2,
+        highlightScanRegion: true,
+      },
+    );
 
-        scanner = new QrScanner(videoRef.current, (scanResult) => {props.onResult(scanResult.data)}, {
-            onDecodeError: props.onError,
-            returnDetailedScanResult: true,
-            preferredCamera: 'environment',
-            maxScansPerSecond: 2,
-            highlightScanRegion: true
-        });
+    scanner.setInversionMode("invert");
 
-        scanner.setInversionMode('invert');
+    scanner
+      .start()
+      .then(() => console.log("started"))
+      .catch(console.error);
 
-        scanner.start().then(() => console.log('started')).catch(console.error);
+    return () => {
+      if (scanner) scanner.destroy();
+    };
+  }, []);
 
-        return () => {
-            if (scanner) scanner.destroy();
-        }
-    }, [])
-
-    return (
-        <div className='scanner fullscreen__panel'>
-            <video className='scanner__video' ref={videoRef} playsInline muted/>
-        </div>
-    )
+  return (
+    <div className="scanner fullscreen__panel">
+      <video className="scanner__video" ref={videoRef} playsInline muted />
+    </div>
+  );
 }
