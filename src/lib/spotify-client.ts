@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  type AuthenticationResponse,
-  SpotifyApi,
-} from "@spotify/web-api-ts-sdk";
+import { type AccessToken, SpotifyApi } from "@spotify/web-api-ts-sdk";
 
 let sdk: SpotifyApi;
 
@@ -19,6 +16,7 @@ export function getSpotifySdk() {
         "streaming",
         "user-read-email",
         "user-read-private",
+        "user-read-playback-state",
       ],
     );
   }
@@ -33,9 +31,10 @@ export function logout() {
   getSpotifySdk().logOut();
 }
 
-export async function completeLoginToSpotify(): Promise<AuthenticationResponse> {
+export async function completeLoginToSpotify(): Promise<AccessToken> {
   // authenticate will take the parameters from the current url path
-  return await getSpotifySdk().authenticate();
+  const authenticationResponse = await getSpotifySdk().authenticate();
+  return authenticationResponse.accessToken;
 }
 
 export function isAuthenticated() {
