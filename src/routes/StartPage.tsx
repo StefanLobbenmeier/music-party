@@ -1,8 +1,11 @@
 import "./StartPage.css";
-import { usePlayerDevice } from "react-spotify-web-playback-sdk";
+import { useNavigate } from "react-router-dom";
+import {
+  usePlayerDevice,
+  useSpotifyPlayer,
+} from "react-spotify-web-playback-sdk";
 import useSWR from "swr";
 import { getSpotifySdk, startLoginToSpotify } from "../lib/spotify-client.ts";
-import { SpotifyLogoutButton } from "../spotify/spotify-logout-button.tsx";
 import type { SpotifyState } from "../spotify/spotify-state.ts";
 import type { DeviceId } from "../spotify/spotify-state.ts";
 
@@ -12,16 +15,16 @@ function StartPage(props: { spotifyState: SpotifyState }) {
     <>
       <div className="card">
         <LoginOrUserInfo spotifyToken={spotifyToken} />
-        <SpotifyLogoutButton />
         {spotifyToken != null ? (
-          <DeviceSelection
-            spotifyToken={spotifyToken}
-            deviceId={props.spotifyState.deviceId}
-            setDeviceId={props.spotifyState.setDeviceId}
-          />
-        ) : (
-          <></>
-        )}
+          <>
+            <DeviceSelection
+              spotifyToken={spotifyToken}
+              deviceId={props.spotifyState.deviceId}
+              setDeviceId={props.spotifyState.setDeviceId}
+            />
+            <StartGameButton deviceId={props.spotifyState.deviceId} />
+          </>
+        ) : null}
       </div>
     </>
   );
@@ -30,13 +33,18 @@ function StartPage(props: { spotifyState: SpotifyState }) {
 function LoginOrUserInfo(props: {
   spotifyToken: string | null;
 }) {
-  if (props.spotifyToken != null) {
-    return <div>"You are now logged in."</div>;
-  }
+  const spotifyToken = props.spotifyToken;
   return (
-    <button type="button" onClick={startLoginToSpotify}>
-      Login to Spotify
-    </button>
+    <>
+      <h2>Step 1: Login to Spotify</h2>
+      {spotifyToken !== null ? (
+        <div>Login Successful</div>
+      ) : (
+        <button type="button" onClick={startLoginToSpotify}>
+          Login to Spotify
+        </button>
+      )}
+    </>
   );
 }
 
@@ -76,6 +84,7 @@ function DeviceSelection(props: {
 
   return (
     <>
+      <h2>Step 2: Select target device</h2>
       <select
         value={props.deviceId ?? undefined}
         onChange={(e) => props.setDeviceId(e.target.value)}
@@ -83,6 +92,29 @@ function DeviceSelection(props: {
         {deviceOptions}
       </select>
       {browserDeviceNotReadyWarning}
+    </>
+  );
+}
+
+function StartGameButton(props: {
+  deviceId: DeviceId | null;
+}) {
+  const navigate = useNavigate();
+  const player = useSpotifyPlayer();
+  const device = usePlayerDevice();
+
+  const startGame = () => {
+    if (device?.device_id === props.deviceId) {
+      player?.activateElement();
+    }
+    navigate("/qr-scanner");
+  };
+  return (
+    <>
+      <h2>Step 3: Start the game</h2>
+      <button type="button" onClick={startGame}>
+        Scan QR Code
+      </button>
     </>
   );
 }
