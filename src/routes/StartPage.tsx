@@ -1,4 +1,5 @@
 import "./StartPage.css";
+import { usePlayerDevice } from "react-spotify-web-playback-sdk";
 import useSWR from "swr";
 import { getSpotifySdk, startLoginToSpotify } from "../lib/spotify-client.ts";
 import { SpotifyLogoutButton } from "../spotify/spotify-logout-button.tsx";
@@ -44,9 +45,14 @@ function DeviceSelection(props: {
   deviceId: DeviceId | null;
   setDeviceId: (device: DeviceId) => void;
 }) {
-  const { data, error, isLoading } = useSWR(props.spotifyToken, () => {
-    return getSpotifySdk().player.getAvailableDevices();
-  });
+  const browserDevice = usePlayerDevice();
+
+  const { data, error, isLoading } = useSWR(
+    props.spotifyToken + browserDevice?.status,
+    () => {
+      return getSpotifySdk().player.getAvailableDevices();
+    },
+  );
 
   if (error) return <div>Failed to load devices: {error.toString()}</div>;
   if (isLoading || !data) return <div>Loading devices...</div>;
@@ -54,16 +60,23 @@ function DeviceSelection(props: {
   const deviceOptions = data.devices.map((device) => (
     <option key={device.id} value={device.id ?? "no-device-id"}>
       {device.name}
+      {browserDevice?.device_id === device.id ? " (This browser tab)" : ""}
     </option>
   ));
 
   return (
-    <select
-      value={props.deviceId ?? undefined}
-      onChange={(e) => props.setDeviceId(e.target.value)}
-    >
-      {deviceOptions}
-    </select>
+    <>
+      <div>
+        Browser device is {browserDevice?.status} and id is{" "}
+        {browserDevice?.device_id}
+      </div>
+      <select
+        value={props.deviceId ?? undefined}
+        onChange={(e) => props.setDeviceId(e.target.value)}
+      >
+        {deviceOptions}
+      </select>
+    </>
   );
 }
 
