@@ -33,8 +33,18 @@ function MusicPartyRoutes() {
           path="/oauth/spotify/callback"
           element={<SpotifyCallback setSpotifyToken={setSpotifyToken} />}
         />
-        <Route path="/qr-scanner" element={<QrScannerRoute />} />
-        <Route path="/play/spotify/:songId" element={<SpotifyUrlPlayer />} />
+
+        {spotifyToken == null || deviceId == null ? (
+          <Route path="*" element={<StartPage spotifyState={spotifyState} />} />
+        ) : (
+          <>
+            <Route path="/qr-scanner" element={<QrScannerRoute />} />
+            <Route
+              path="/play/spotify/:songId"
+              element={<SpotifyUrlPlayer deviceId={deviceId} />}
+            />
+          </>
+        )}
       </Routes>
     </ContextProvider>
   );

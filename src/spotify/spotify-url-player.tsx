@@ -1,19 +1,15 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { usePlayerDevice } from "react-spotify-web-playback-sdk";
 import { getSpotifySdk } from "../lib/spotify-client.ts";
 import { TogglePlay } from "./toggle-play.tsx";
 
-export function SpotifyUrlPlayer() {
+export function SpotifyUrlPlayer(props: { deviceId: string }) {
   const { songId } = useParams();
-  const device = usePlayerDevice();
-  const deviceId = device?.device_id;
+  const deviceId = props.deviceId;
 
   useEffect(() => {
     if (songId && deviceId) {
-      getSpotifySdk().player.startResumePlayback(deviceId!, undefined, [
-        songId,
-      ]);
+      getSpotifySdk().player.startResumePlayback(deviceId, undefined, [songId]);
     }
   }, [songId, deviceId]);
 
