@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { resolveSongUrl } from "../lib/resolve-song-url.ts";
 import { Scanner } from "../qr-scanner/scanner.tsx";
 
-export function ScanSongQrCode() {
+export function QrScannerRoute() {
   const navigate = useNavigate();
 
   const qrCodeScanned = async (result: string) => {
@@ -15,10 +15,7 @@ export function ScanSongQrCode() {
     console.error(error);
   };
 
-  return (
-    <div>
-      Scan Your Songs QR Code
-      <Scanner onResult={qrCodeScanned} onError={qrCodeFailed} />
-    </div>
-  );
+  return <Scanner onResult={qrCodeScanned} onError={qrCodeFailed} />;
 }
+
+export default QrScannerRoute;

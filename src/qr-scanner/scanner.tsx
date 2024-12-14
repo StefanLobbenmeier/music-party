@@ -1,5 +1,6 @@
 import QrScanner from "qr-scanner";
 import { useEffect, useRef } from "react";
+import "./scanner.css";
 
 export function Scanner(props: {
   onResult: (result: string) => void;
@@ -38,8 +39,8 @@ export function Scanner(props: {
   }, [props.onResult, props.onError]);
 
   return (
-    <div className="scanner fullscreen__panel">
-      <video className="scanner__video" ref={videoRef} playsInline muted />
+    <div className="scanner">
+      <video className="video" ref={videoRef} playsInline muted />
     </div>
   );
 }
