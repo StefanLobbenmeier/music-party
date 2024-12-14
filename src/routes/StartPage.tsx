@@ -64,18 +64,25 @@ function DeviceSelection(props: {
     </option>
   ));
 
+  const browserDeviceNotReadyWarning =
+    browserDevice?.status !== "ready" ? (
+      <div>
+        Spotify Web Player did not initialize, try refreshing the page if you
+        want to listen in this browser tab.
+      </div>
+    ) : (
+      <></>
+    );
+
   return (
     <>
-      <div>
-        Browser device is {browserDevice?.status} and id is{" "}
-        {browserDevice?.device_id}
-      </div>
       <select
         value={props.deviceId ?? undefined}
         onChange={(e) => props.setDeviceId(e.target.value)}
       >
         {deviceOptions}
       </select>
+      {browserDeviceNotReadyWarning}
     </>
   );
 }
