@@ -1,8 +1,11 @@
 import { getSpotifySdk } from "./spotify-client.ts";
 
 const playlistIds = new Map<string, string>([
-  ["de", "26zIHVncgI9HmHlgYWwnDi"],
-  ["deaaaa0019", "58y9xPPIRWd8tqlOaKoDOI"],
+  ["de", "26zIHVncgI9HmHlgYWwnDi"], // general german game
+  ["de/aaaa0012", "15hZ0ez6sHYhTeCCshxJTN"], // summer party
+  ["de/aaaa0015", "2u0vgWYqU1TWVcDehJnZuN"], // guilty pleasures
+  ["de/aaaa0019", "58y9xPPIRWd8tqlOaKoDOI"], // bingo
+  ["de/aaaa0026", "2jlbmBYM1RLZrsyY67wuDQ"], // movies and tv soundtracks
 ]);
 
 export async function resolveSongUrl(urlString: string) {
@@ -47,7 +50,7 @@ function getSongAndPlaylistId(url: URL) {
     const game = pathComponents[2];
     const songId = pathComponents[3];
     const songIndex = Number(songId) - 1;
-    const playlistId = playlistIds.get(country + game);
+    const playlistId = playlistIds.get(`${country}/${game}`);
     return { songIndex, playlistId };
   }
 
