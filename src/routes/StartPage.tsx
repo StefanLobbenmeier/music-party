@@ -1,4 +1,5 @@
 import "./StartPage.css";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   usePlayerDevice,
@@ -62,6 +63,13 @@ function DeviceSelection(props: {
     },
   );
 
+  useEffect(() => {
+    const firstId = data?.devices[0]?.id;
+    if (props.deviceId == null && firstId != null) {
+      props.setDeviceId(firstId);
+    }
+  }, [data, props]);
+
   if (error) return <div>Failed to load devices: {error.toString()}</div>;
   if (isLoading || !data) return <div>Loading devices...</div>;
 
@@ -76,7 +84,7 @@ function DeviceSelection(props: {
     browserDevice?.status !== "ready" ? (
       <div>
         Spotify Web Player did not initialize, try refreshing the page if you
-        want to listen in this browser tab.
+        want to listen in the browser.
       </div>
     ) : (
       <></>

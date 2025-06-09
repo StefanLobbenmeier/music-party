@@ -24,7 +24,7 @@ export function getSpotifySdk() {
 }
 
 export function startLoginToSpotify() {
-  getSpotifySdk().authenticate();
+  return getSpotifySdk().authenticate();
 }
 
 export function logout() {
