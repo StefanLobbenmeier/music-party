@@ -13,7 +13,7 @@ export function SpotifyUrlPlayer(props: { deviceId: string }) {
 
   useEffect(() => {
     if (songId && deviceId) {
-      // getSpotifySdk().player.startResumePlayback(deviceId, undefined, [songId]);
+      getSpotifySdk().player.startResumePlayback(deviceId, undefined, [songId]);
     }
   }, [songId, deviceId]);
 
