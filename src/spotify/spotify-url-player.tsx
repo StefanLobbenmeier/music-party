@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getSpotifySdk } from "../lib/spotify-client.ts";
 import { PlayerControls } from "./player-controls.tsx";
 import { ScanNextQrCodeButton } from "./scan-next-qr-code-button.tsx";
-import styles from "./spotify-url-player.module.css";
+import "./spotify-url-player.css";
 import { TogglePlay } from "./toggle-play.tsx";
 
 export function SpotifyUrlPlayer(props: { deviceId: string }) {
@@ -30,7 +30,7 @@ export function SpotifyUrlPlayer(props: { deviceId: string }) {
       {track && (
         <details>
           <summary>Track Information (SPOILERS!)</summary>
-          <ul className={styles.trackInformationList}>
+          <ul className="track-information-list">
             <li>Name: {track.name}</li>
             <li>Name: {track.artists.map((it) => it.name).join(", ")}</li>
             <li>Album Name: {track.album.name}</li>
