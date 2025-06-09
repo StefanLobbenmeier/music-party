@@ -8,6 +8,7 @@ export function QrScannerRoute() {
   const qrCodeScanned = async (result: string) => {
     console.log("QR code recognized: ", result);
     const spotifyTrack = (await resolveSongUrl(result))!;
+    console.log("Resolved to: ", spotifyTrack);
     navigate(`/play/spotify/${spotifyTrack?.uri!}`);
   };
 
