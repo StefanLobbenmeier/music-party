@@ -61,6 +61,10 @@ function DeviceSelection(props: {
     () => {
       return getSpotifySdk().player.getAvailableDevices();
     },
+
+    {
+      refreshInterval: 1000,
+    },
   );
 
   useEffect(() => {

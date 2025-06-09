@@ -7,6 +7,9 @@ export function PlayerControls() {
     () => {
       return getSpotifySdk().player.getPlaybackState();
     },
+    {
+      refreshInterval: 1000,
+    },
   );
 
   return (
