@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { getSpotifySdk } from "../lib/spotify-client.ts";
 
-function msToHMS(ms) {
+function msToHMS(ms: number) {
   let seconds: string | number = ms / 1000;
   let minutes = seconds / 60;
   seconds = seconds % 60;
