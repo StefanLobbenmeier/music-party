@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getSpotifySdk } from "../lib/spotify-client.ts";
+import { ScanNextQrCodeButton } from "./scan-next-qr-code-button.tsx";
 import { TogglePlay } from "./toggle-play.tsx";
 
 export function SpotifyUrlPlayer(props: { deviceId: string }) {
@@ -13,11 +14,21 @@ export function SpotifyUrlPlayer(props: { deviceId: string }) {
     }
   }, [songId, deviceId]);
 
+  useEffect(() => {
+    if (songId) {
+      const trackId = songId.split(":")[2];
+      getSpotifySdk()
+        .tracks.get(trackId)
+        .then((track) => console.log(track));
+    }
+  }, [songId]);
+
   return (
     <>
       <div>Song id is {songId}</div>
       <div>Device id is {deviceId}</div>
       <TogglePlay />
+      <ScanNextQrCodeButton />
     </>
   );
 }
