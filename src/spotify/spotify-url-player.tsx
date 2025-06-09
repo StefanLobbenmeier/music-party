@@ -33,7 +33,10 @@ export function SpotifyUrlPlayer(props: { deviceId: string }) {
             <li>Name: {track.name}</li>
             <li>Name: {track.artists.map((it) => it.name).join(", ")}</li>
             <li>Album Name: {track.album.name}</li>
-            <li>Album Release Date: {track.album.release_date}</li>
+            <li>
+              Album Release Date:{" "}
+              {new Date(track.album.release_date).getUTCFullYear()}
+            </li>
           </ul>
         </details>
       )}
