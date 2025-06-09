@@ -11,6 +11,7 @@
     "deploy": "npm run build && wrangler pages deploy ./dist --project-name music-party"
   },
   "dependencies": {
+    "@spotify/web-api-ts-sdk": "^1.2.0",
     "qr-scanner": "^1.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -21,7 +22,6 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@cloudflare/workers-types": "^4.20240919.0",
-    "@spotify/web-api-ts-sdk": "^1.2.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/spotify-web-playback-sdk": "^0.1.19",
