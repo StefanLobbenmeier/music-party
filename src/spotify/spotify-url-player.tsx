@@ -13,7 +13,7 @@ const backgroundColours = [
     "#2196F3",
     "#4CAF50",
     "#9C27B0",
-    "#FFEB3B",
+    "#9a9a1b",
 ];
 
 export function SpotifyUrlPlayer(props: { deviceId: string }) {
