@@ -7,10 +7,20 @@ import { ScanNextQrCodeButton } from "./scan-next-qr-code-button.tsx";
 import "./spotify-url-player.css";
 import { TogglePlay } from "./toggle-play.tsx";
 
+const backgroundColours = [
+    // pink, blue, green, purple, yellow
+    "#E91E63",
+    "#2196F3",
+    "#4CAF50",
+    "#9C27B0",
+    "#FFEB3B",
+];
+
 export function SpotifyUrlPlayer(props: { deviceId: string }) {
   const { songId } = useParams();
   const deviceId = props.deviceId;
   const [track, setTrack] = useState<Track | null>(null);
+  const [backgroundColour, setBackgroundColour] = useState<string>("");
 
   useEffect(() => {
     if (songId && deviceId) {
@@ -25,8 +35,13 @@ export function SpotifyUrlPlayer(props: { deviceId: string }) {
     }
   }, [songId]);
 
+  useEffect(() => {
+      const randomBackgroundColour = backgroundColours[Math.floor(Math.random() * backgroundColours.length)];
+      setBackgroundColour(randomBackgroundColour);
+  }, [songId]);
+
   return (
-    <>
+    <div style={{ backgroundColor: backgroundColour }}>
       {track && (
         <details>
           <summary>Track Information (SPOILERS!)</summary>
@@ -44,7 +59,7 @@ export function SpotifyUrlPlayer(props: { deviceId: string }) {
       <TogglePlay />
       <ScanNextQrCodeButton />
       <PlayerControls />
-    </>
+    </div>
   );
 }
 
