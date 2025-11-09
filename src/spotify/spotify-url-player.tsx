@@ -9,11 +9,11 @@ import { TogglePlay } from "./toggle-play.tsx";
 
 const backgroundColours = [
     // pink, blue, green, purple, yellow
-    "#E91E63",
-    "#2196F3",
-    "#4CAF50",
-    "#9C27B0",
-    "#9a9a1b",
+    "#D15BCB",
+    "#9368D8",
+    "#4DC9FA",
+    "#5CBB5A",
+    "#FFBD00",
 ];
 
 export function SpotifyUrlPlayer(props: { deviceId: string }) {
