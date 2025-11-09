@@ -6,6 +6,7 @@ const playlistIds = new Map<string, string>([
   ["de/aaaa0015", "2u0vgWYqU1TWVcDehJnZuN"], // guilty pleasures
   ["de/aaaa0019", "58y9xPPIRWd8tqlOaKoDOI"], // bingo
   ["de/aaaa0026", "2jlbmBYM1RLZrsyY67wuDQ"], // movies and tv soundtracks
+  ["de/aaaa0040", "3QWNtOG8LrhClKhHqFRBHS"], // celebration
 ]);
 
 export async function resolveSongUrl(urlString: string) {
