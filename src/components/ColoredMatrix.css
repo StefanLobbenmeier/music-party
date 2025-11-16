@@ -1,0 +1,58 @@
+.colored-matrix-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.colored-matrix {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 2px;
+  background-color: #000;
+  padding: 2px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.matrix-square {
+  width: 60px;
+  height: 60px;
+  border-radius: 2px;
+}
+
+.color-pink {
+  background-color: #ff69b4;
+}
+
+.color-purple {
+  background-color: #ba55d3;
+}
+
+.color-yellow {
+  background-color: #ffd700;
+}
+
+.color-cyan {
+  background-color: #00bfff;
+}
+
+.color-green {
+  background-color: #7fff00;
+}
+
+/* Responsive sizing for smaller screens */
+@media (max-width: 768px) {
+  .matrix-square {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .matrix-square {
+    width: 40px;
+    height: 40px;
+  }
+}
