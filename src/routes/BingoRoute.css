@@ -3,4 +3,14 @@
   .no-print {
     display: none !important;
   }
+
+  html, body {
+    height: auto;
+    overflow: hidden;
+  }
+
+  * {
+    page-break-after: avoid;
+    page-break-before: avoid;
+  }
 }
