@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ColoredMatrix from "../components/ColoredMatrix";
+import "./BingoRoute.css";
 
 function BingoRoute() {
   const [searchParams] = useSearchParams();
@@ -40,8 +41,8 @@ function BingoRoute() {
 
   return (
     <div>
-      <h1>Bingo Board</h1>
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <h1 className="no-print">Bingo Board</h1>
+      <div className="no-print" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <p style={{ margin: 0 }}>Seed: {seed}</p>
         <button type="button" onClick={generateNewSeed}>
           New Random Seed

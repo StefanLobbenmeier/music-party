@@ -56,3 +56,67 @@
     height: 40px;
   }
 }
+
+/* Print styles optimized for A5 paper (148mm x 210mm) */
+@media print {
+  @page {
+    size: auto;
+    margin: 0;
+  }
+
+  .colored-matrix-container {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .colored-matrix {
+    gap: 1px;
+    padding: 1px;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  .matrix-square {
+    width: 25mm;
+    height: 25mm;
+    /* Force colors to print in Safari and other browsers */
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Ensure colors are printed with exact values */
+  .color-pink {
+    background-color: #ff69b4 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .color-purple {
+    background-color: #ba55d3 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .color-yellow {
+    background-color: #ffd700 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .color-cyan {
+    background-color: #00bfff !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .color-green {
+    background-color: #7fff00 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+}
