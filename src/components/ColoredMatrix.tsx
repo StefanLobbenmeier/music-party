@@ -50,13 +50,22 @@ function ColoredMatrix({ seed }: ColoredMatrixProps) {
 
   return (
     <div className="colored-matrix-container">
-      <div className="colored-matrix">
-        {colors.map((color, index) => (
-          <div
-            key={index}
-            className={`matrix-square color-${color}`}
-          />
-        ))}
+      <div className="bingo-card">
+        <div className="bingo-card-top">
+          <div className="colored-matrix">
+            {colors.map((color, index) => (
+              <div
+                key={index}
+                className={`matrix-square color-${color}`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="bingo-card-middle">
+          <img src="/bingo-logo.png" alt="Bingo Logo" className="bingo-logo" />
+        </div>
+        <div className="bingo-card-bottom">
+        </div>
       </div>
     </div>
   );

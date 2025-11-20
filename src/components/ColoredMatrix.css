@@ -5,6 +5,45 @@
   padding: 20px;
 }
 
+.bingo-card {
+  background-color: #000;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  aspect-ratio: 1/1.41421;
+}
+
+.bingo-card-top {
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bingo-card-middle {
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bingo-logo {
+  max-width: 100%;
+  max-height: 60px;
+  height: auto;
+  display: block;
+}
+
+.bingo-card-bottom {
+  background-color: #e5e5e5;
+  border-radius: 0 0 10px 10px;
+  padding: 20px;
+  min-height: 80px;
+}
+
 .colored-matrix {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -81,6 +120,36 @@
     overflow: hidden;
   }
 
+  .bingo-card {
+    background-color: #000 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    page-break-inside: avoid;
+  }
+
+  .bingo-card-top {
+    background-color: #e5e5e5 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .bingo-card-middle {
+    background-color: #000 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .bingo-card-bottom {
+    background-color: #e5e5e5 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .bingo-logo {
+    max-width: 100%;
+    height: auto;
+  }
+
   .colored-matrix {
     gap: 1px;
     padding: 1px;
@@ -90,8 +159,8 @@
   }
 
   .matrix-square {
-    width: 25mm;
-    height: 25mm;
+    width: 22mm;
+    height: 22mm;
     /* Force colors to print in Safari and other browsers */
     print-color-adjust: exact !important;
     -webkit-print-color-adjust: exact !important;
