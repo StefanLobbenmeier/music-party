@@ -1,6 +1,5 @@
 import "./ColoredMatrix.css";
-import { useRef } from "react";
-import { toPng } from "html-to-image";
+import { forwardRef } from "react";
 
 type Color = "pink" | "purple" | "yellow" | "cyan" | "green";
 
@@ -47,50 +46,32 @@ interface ColoredMatrixProps {
   seed: number;
 }
 
-function ColoredMatrix({ seed }: ColoredMatrixProps) {
-  const colors = generateColorMatrix(seed);
-  const matrixRef = useRef<HTMLDivElement>(null);
-
-  const copyMatrixToClipboard = async () => {
-    if (!matrixRef.current) return;
-    try {
-      const dataUrl = await toPng(matrixRef.current, { cacheBust: true });
-      const res = await fetch(dataUrl);
-      const blob = await res.blob();
-      await navigator.clipboard.write([
-        new window.ClipboardItem({ "image/png": blob })
-      ]);
-      // Optionally, show a success message here
-    } catch (err) {
-      // Optionally, show an error message here
-      console.error("Failed to copy image:", err);
-    }
-  };
-
-  return (
-    <div className="colored-matrix-container">
-      <div className="bingo-card">
-        <div className="bingo-card-top">
-          <div className="colored-matrix" ref={matrixRef}>
-            {colors.map((color, index) => (
-              <div
-                key={index}
-                className={`matrix-square color-${color}`}
-              />
-            ))}
+const ColoredMatrix = forwardRef<HTMLDivElement, ColoredMatrixProps>(
+  function ColoredMatrix({ seed }, ref) {
+    const colors = generateColorMatrix(seed);
+    return (
+      <div className="colored-matrix-container">
+        <div className="bingo-card">
+          <div className="bingo-card-top">
+            <div className="colored-matrix" ref={ref}>
+              {colors.map((color, index) => (
+                <div
+                  key={index}
+                  className={`matrix-square color-${color}`}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="bingo-card-middle">
+            <img src="/bingo-logo.png" alt="Bingo Logo" className="bingo-logo" />
+          </div>
+          <div className="bingo-card-bottom">
+            {/* Button removed, now handled in parent */}
           </div>
         </div>
-        <div className="bingo-card-middle">
-          <img src="/bingo-logo.png" alt="Bingo Logo" className="bingo-logo" />
-        </div>
-        <div className="bingo-card-bottom">
-          <button type="button" onClick={copyMatrixToClipboard} className="no-print">
-            Copy Matrix as PNG
-          </button>
-        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
 
 export default ColoredMatrix;

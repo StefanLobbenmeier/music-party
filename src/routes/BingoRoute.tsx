@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { toPng } from "html-to-image";
 import ColoredMatrix from "../components/ColoredMatrix";
 import "./BingoRoute.css";
 
@@ -7,6 +8,7 @@ function BingoRoute() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const seedParam = searchParams.get("seed");
+  const matrixRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // If no seed is provided, generate a random one and redirect
@@ -39,6 +41,22 @@ function BingoRoute() {
     navigate(`/bingo?seed=${randomSeed}`);
   };
 
+  const copyMatrixToClipboard = async () => {
+    if (!matrixRef.current) return;
+    try {
+      const dataUrl = await toPng(matrixRef.current, { cacheBust: true });
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      await navigator.clipboard.write([
+        new window.ClipboardItem({ "image/png": blob })
+      ]);
+      // Optionally, show a success message here
+    } catch (err) {
+      // Optionally, show an error message here
+      console.error("Failed to copy image:", err);
+    }
+  };
+
   return (
     <div>
       <h1 className="no-print">Bingo Board</h1>
@@ -47,8 +65,11 @@ function BingoRoute() {
         <button type="button" onClick={generateNewSeed}>
           New Random Seed
         </button>
+        <button type="button" onClick={copyMatrixToClipboard}>
+          Copy Matrix as PNG
+        </button>
       </div>
-      <ColoredMatrix seed={seed} />
+      <ColoredMatrix seed={seed} ref={matrixRef} />
     </div>
   );
 }
