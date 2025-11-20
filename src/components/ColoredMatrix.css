@@ -66,7 +66,7 @@
 }
 
 .color-purple {
-  background-color: #ba55d3;
+  background-color: hsl(269 45% 55%);
 }
 
 .color-yellow {
@@ -78,7 +78,7 @@
 }
 
 .color-green {
-  background-color: #7fff00;
+  background-color: hsl(115 50% 48%);
 }
 
 /* Responsive sizing for smaller screens */

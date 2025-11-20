@@ -65,9 +65,7 @@ const ColoredMatrix = forwardRef<HTMLDivElement, ColoredMatrixProps>(
           <div className="bingo-card-middle">
             <img src="/bingo-logo.png" alt="Bingo Logo" className="bingo-logo" />
           </div>
-          <div className="bingo-card-bottom">
-            {/* Button removed, now handled in parent */}
-          </div>
+          <div className="bingo-card-bottom" />
         </div>
       </div>
     );
