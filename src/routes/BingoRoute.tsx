@@ -57,6 +57,21 @@ function BingoRoute() {
     }
   };
 
+    const downloadMatrixAsPng = async () => {
+        if (!matrixRef.current) return;
+        try {
+            const dataUrl = await toPng(matrixRef.current, { cacheBust: true });
+            const link = document.createElement("a");
+            link.href = dataUrl;
+            link.download = `bingo-matrix-seed-${seed}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (err) {
+            console.error("Failed to download image:", err);
+        }
+    };
+
   return (
     <div>
       <h1 className="no-print">Bingo Board</h1>
@@ -68,6 +83,9 @@ function BingoRoute() {
         <button type="button" onClick={copyMatrixToClipboard}>
           Copy Matrix as PNG
         </button>
+          <button type="button" onClick={downloadMatrixAsPng}>
+              Download Matrix as PNG
+          </button>
       </div>
       <ColoredMatrix seed={seed} ref={matrixRef} />
     </div>
