@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable data class HitsterCard(val editionKey: String, val cardNumber: Int)
 @Serializable data class ResolvedSong(val id: String, val uri: String, val url: String)
-@Serializable data class EditionConfiguration(val playlists: Map<String, String>)
+@Serializable data class EditionConfiguration(val playlists: Map<String, String>, val labels: Map<String, String> = emptyMap())
 interface SongResolver { suspend fun resolve(card: HitsterCard): ResolvedSong }
 enum class FailureKind {
-    InvalidQr, UnknownEdition, InaccessiblePlaylist, MissingItem, UnavailableTrack,
+    InvalidQr, InvalidConfiguration, UnknownEdition, InaccessiblePlaylist, MissingItem, UnavailableTrack,
     LoginRequired, NoDevice, PlaybackRestricted, Throttled, Offline
 }
 class MusicFailure(val kind: FailureKind, message: String, cause: Throwable? = null) : Exception(message, cause)
