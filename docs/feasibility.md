@@ -165,3 +165,9 @@ Final automated production smoke result: **PASS** with `LIVE_SDK_PROBE=1`, inclu
 synthetic camera stream acquisition and release (video `srcObject` cleared), worker
 fixture decode, Kotlin callback observations and no uncaught page errors. The CI variant
 omits the live SDK probe so it requires no Spotify service or credentials.
+
+GitHub Linux/Temurin 25 CI also passed the full Gradle build and credential-free
+production browser smoke. Its initial run failed only while archiving the bundle:
+`Artifact storage quota has been hit.` Optional artifact upload is now non-blocking;
+compilation/tests/browser checks remain required. Build output is reproducible locally,
+but downloading an archived CI bundle depends on the repository's storage quota.
