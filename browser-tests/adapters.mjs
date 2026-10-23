@@ -14,6 +14,7 @@ export async function adapterTests(page) {
     const env = { crypto, sessionStorage, location: { get href() { return href; }, assign(value) { assigned = value; } },
       history: { replaceState(_, __, value) { href = location.origin + value; } } };
     const auth = new BrowserAuth('public-client', redirect, env);
+    check(JSON.parse(auth.callback()).kind === 'none', 'clean callback reload is ordinary navigation');
     await auth.begin();
     let pending = JSON.parse(sessionStorage.getItem('music-party.oauth.pending'));
     const request = new URL(assigned);
