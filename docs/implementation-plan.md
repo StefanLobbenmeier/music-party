@@ -1,6 +1,8 @@
 # Music Party: Compose web implementation plan
 
-Status: planning handoff only; no application implementation started.
+Status: implementation packages 1–5 merged; step 6 verification recorded in
+[release verification](release-verification.md). Live acceptance and policy gates remain open.
+The architecture and work packages below preserve the original planning brief.
 Prepared: 2026-10-23.
 
 ## Goal and scope

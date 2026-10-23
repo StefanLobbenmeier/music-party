@@ -1,5 +1,8 @@
 # Foundation and feasibility
 
+Current operational instructions and release gates: [release verification](release-verification.md).
+Historical step evidence below does not supersede the integrated implementation.
+
 Foundation scope: module scaffold, fixed boundaries, public configuration template and
 browser bridge spike. No later work package, React merge or deployment is included.
 Reference: `origin/v1` at `23297a71b1471c1870d1c1028384a0a36b7481e7`.
