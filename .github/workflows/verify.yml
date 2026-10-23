@@ -12,7 +12,7 @@ jobs:
           distribution: temurin
           java-version: '25'
       - uses: gradle/actions/setup-gradle@v4
-      - run: ./gradlew :music-domain:jvmTest :spotify-api:jvmTest :composeApp:wasmJsBrowserDistribution
+      - run: ./gradlew :composeApp:jvmTest :music-domain:jvmTest :spotify-api:jvmTest :composeApp:wasmJsBrowserDistribution
       - uses: actions/setup-node@v4
         with:
           node-version: '24'

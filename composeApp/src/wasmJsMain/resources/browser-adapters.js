@@ -32,6 +32,7 @@ export class BrowserAuth {
   callback() {
     const url = new URL(this.env.location.href);
     if (url.origin + url.pathname !== this.redirectUri) return JSON.stringify({ kind: 'none' });
+    if (!url.search && !url.hash) return JSON.stringify({ kind: 'none' });
     const raw = this.env.sessionStorage.getItem(pendingKey);
     this.env.sessionStorage.removeItem(pendingKey);
     this.env.history.replaceState(null, '', url.pathname);
