@@ -2,7 +2,11 @@ package music.spotify
 
 /** Implementations must propagate cancellation and never log tokens. */
 interface AccessTokenProvider { suspend fun validAccessToken(): String }
-data class SpotifyTrack(val id: String, val uri: String, val url: String)
+data class SpotifyArtist(val id: String?, val name: String)
+data class SpotifyAlbum(val id: String?, val name: String, val releaseDate: String?, val releaseDatePrecision: String?)
+data class SpotifyTrack(val id: String, val uri: String, val url: String,
+    val name: String? = null, val artists: List<SpotifyArtist> = emptyList(),
+    val album: SpotifyAlbum? = null, val durationMs: Long? = null)
 /** Null/episode/local items retain their exact playlist position. */
 data class PlaylistItem(val item: SpotifyTrack?, val local: Boolean = false, val type: String? = null)
 data class PlaylistPage(val items: List<PlaylistItem>, val offset: Int, val total: Int, val next: String?)
@@ -24,4 +28,4 @@ interface SpotifyApi {
 }
 enum class ApiFailureKind { LoginRequired, Forbidden, NotFound, Throttled, Offline, Server, InvalidResponse }
 class SpotifyApiFailure(val kind: ApiFailureKind, message: String, val retryAfterSeconds: Long? = null,
-    cause: Throwable? = null) : Exception(message, cause)
+    cause: Throwable? = null, val httpStatusCode: Int? = null) : Exception(message, cause)
