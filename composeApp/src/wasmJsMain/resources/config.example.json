@@ -1,0 +1,13 @@
+{
+  "spotifyClientId": "",
+  "redirectUri": "http://127.0.0.1:8080/oauth/spotify/callback",
+  "playlists": {
+    "de": "26zIHVncgI9HmHlgYWwnDi",
+    "de/aaaa0012": "15hZ0ez6sHYhTeCCshxJTN",
+    "de/aaaa0015": "2u0vgWYqU1TWVcDehJnZuN",
+    "de/aaaa0019": "58y9xPPIRWd8tqlOaKoDOI",
+    "de/aaaa0026": "2jlbmBYM1RLZrsyY67wuDQ",
+    "de/aaaa0040": "3QWNtOG8LrhClKhHqFRBHS",
+    "de/aaaa0039": "4oYTRg0JI48jucsJOLily1"
+  }
+}
