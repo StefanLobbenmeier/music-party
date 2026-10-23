@@ -1,10 +1,11 @@
-name: Foundation verification
+name: Release verification
 on: [push, pull_request]
 permissions:
   contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -24,5 +25,7 @@ jobs:
         uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
-          name: foundation-static-site
+          name: production-static-site
+          retention-days: 3
+          if-no-files-found: error
           path: composeApp/build/dist/wasmJs/productionExecutable

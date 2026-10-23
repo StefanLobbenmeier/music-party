@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readdir } from 'node:fs/promises';
 import { adapterTests } from './adapters.mjs';
 import { spawn } from 'node:child_process';
 import { chromium } from 'playwright';
@@ -42,10 +43,31 @@ try {
     try { await fetch(origin); break; }
     catch (error) { if (attempt >= 30) throw error; await new Promise(r => setTimeout(r, 100)); }
   }
+  // Validate the generated artifact and shipped rewrite, before opening the app.
+  const root = await fetch(origin);
+  const html = await root.text();
+  for (const method of ['GET', 'HEAD']) {
+    const callback = await fetch(origin + '/oauth/spotify/callback?code=synthetic&state=synthetic', { method });
+    assert.equal(callback.status, 200);
+    assert.match(callback.headers.get('content-type'), /text\/html/);
+    if (method === 'GET') assert.equal(await callback.text(), html);
+  }
+  assert.equal((await fetch(origin + '/missing-asset.js')).status, 404);
+  const files = await readdir(new URL('../composeApp/build/dist/wasmJs/productionExecutable/', import.meta.url));
+  assert.ok(files.filter(f => f.endsWith('.wasm')).length >= 2);
+  assert.ok(files.some(f => /^(?!music-party).*\.js$/.test(f)), 'QR worker/chunk shipped');
+  for (const file of files.filter(f => /\.(wasm|js)$/.test(f))) {
+    const response = await fetch(origin + '/' + file);
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get('content-type'), file.endsWith('.wasm') ? /application\/wasm/ : /javascript/);
+    assert.ok((await response.arrayBuffer()).byteLength > 0);
+  }
+  console.log('PASS: production artifact, asset MIME types, callback GET/HEAD rewrite and missing-asset 404');
   browser = await chromium.launch({
     ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}),
     args: ['--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream'],
   });
+  console.log('Desktop browser:', browser.version());
   const context = await browser.newContext({ permissions: ['camera'] });
   page = await context.newPage();
   const errors = [];

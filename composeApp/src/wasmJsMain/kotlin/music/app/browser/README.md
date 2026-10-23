@@ -1,8 +1,12 @@
 # Browser adapters (step 4)
 
+Current operational instructions and release gates: [release verification](../../../../../../../docs/release-verification.md).
+Historical step evidence below does not supersede the integrated implementation.
+
 `BrowserAdapters.kt` implements the existing `QrScanner`, `BrowserPlayer`, and
 `RefreshingAccessTokenProvider` boundaries. Shared domain/API contracts are unchanged.
-No screens, composition root, navigation or playback coordination are wired here.
+Screens, composition root and playback coordination are wired by step 5; this document
+describes the adapter package boundary.
 
 - Create one `BrowserSession` per tab with the configured public client ID and exact
   registered `/oauth/spotify/callback` URI. `login()` redirects using Web Crypto
