@@ -10,7 +10,7 @@ kotlin {
         wasmJsMain.dependencies {
             implementation(project(":music-domain")); implementation(project(":spotify-api"))
             implementation(compose.runtime); implementation(compose.foundation); implementation(compose.material3)
-            implementation(libs.coroutines); implementation(libs.ktor.js)
+            implementation(libs.serialization); implementation(libs.coroutines); implementation(libs.ktor.js)
             implementation(npm("qr-scanner", "1.4.2"))
         }
     }

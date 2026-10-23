@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { adapterTests } from './adapters.mjs';
 import { spawn } from 'node:child_process';
 import { chromium } from 'playwright';
 
@@ -37,6 +38,8 @@ try {
     await page.locator('#sdk-load').click();
     await page.waitForFunction(() => document.documentElement.dataset.kotlinBridgeEvent === 'Spotify SDK ready callback; Player constructor: function');
   }
+  await page.locator('#fake').click(); // Establish user activation for adapter lifecycle checks.
+  await adapterTests(page);
   assert.deepEqual(errors, []);
   console.log('PASS: production Compose/Wasm, Ktor 200, QR worker fixture, Kotlin callback, fake camera start/release' +
     (process.env.LIVE_SDK_PROBE === '1' ? ', live SDK script readiness (no account/player)' : ''));
