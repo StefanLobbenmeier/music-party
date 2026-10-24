@@ -12,14 +12,19 @@ import music.domain.*
 @Composable
 fun MusicParty(model: AppModel?, setupError: String?, configure: (String, String) -> Unit,
     redirectDefault: String, enableAudio: () -> Unit, connectBrowser: () -> Unit,
-    openLink: (String) -> Unit, demo: () -> Unit, changeSetup: () -> Unit) {
+    openLink: (String) -> Unit, demo: () -> Unit, changeSetup: () -> Unit,
+    selectMode: (AppMode) -> Unit = {}) {
     MaterialTheme {
         Surface(Modifier.fillMaxSize()) {
             Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text("Music Party", style = MaterialTheme.typography.headlineMedium)
-                Text("Spotify scan and playback companion")
-                Text("Spotify game-use permission is unresolved. No game rounds are implemented. Live account, playlist order and device verification are pending.",
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextButton(onClick = { selectMode(AppMode.HITSTER) }) { Text("QR / Hitster") }
+                    TextButton(onClick = { selectMode(AppMode.BINGO) }) { Text("Bingo / Plex") }
+                }
+                Text("QR card scanning and Spotify playback")
+                Text("Spotify is initialized only in QR / Hitster mode.",
                     style = MaterialTheme.typography.bodySmall)
                 if (model == null) {
                     var clientId by remember { mutableStateOf("") }
@@ -99,6 +104,33 @@ fun MusicParty(model: AppModel?, setupError: String?, configure: (String, String
                                 Text("${if (actual.deviceId == device.id) "✓ " else ""}${device.name}${if (device.restricted) " (restricted)" else ""}")
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+enum class AppMode { HOME, HITSTER, BINGO }
+
+@Composable
+fun ModeChooser(onSelect: (AppMode) -> Unit) {
+    MaterialTheme {
+        Surface(Modifier.fillMaxSize()) {
+            Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Text("Music Party", style = MaterialTheme.typography.headlineMedium)
+                Text("Choose a mode. Each mode uses its own music source.")
+                Card(onClick = { onSelect(AppMode.HITSTER) }) {
+                    Column(Modifier.fillMaxWidth().padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("QR / Hitster", style = MaterialTheme.typography.titleLarge)
+                        Text("Scan QR cards and play them through Spotify.")
+                    }
+                }
+                Card(onClick = { onSelect(AppMode.BINGO) }) {
+                    Column(Modifier.fillMaxWidth().padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("Bingo", style = MaterialTheme.typography.titleLarge)
+                        Text("Sign in to Plex and play prompts from your Plex music library.")
                     }
                 }
             }

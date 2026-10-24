@@ -26,6 +26,8 @@ private fun removeLocal(key: String) { check(storageWrite(key, null, false)) { "
 @JsFun("() => new URL('oauth/spotify/callback', document.baseURI).href") private external fun defaultRedirect(): String
 @JsFun("url => window.open(url, '_blank', 'noopener,noreferrer')") private external fun openSpotify(url: String)
 @JsFun("() => document.visibilityState === 'visible'") private external fun visible(): Boolean
+@JsFun("() => { const u=new URL(location.href); if(u.pathname.endsWith('/oauth/spotify/callback')) return 'hitster'; return u.searchParams.get('mode') || 'home'; }") private external fun initialMode(): String
+@JsFun("mode => { const u=new URL(location.href); const suffix='/oauth/spotify/callback'; if(u.pathname.endsWith(suffix)) u.pathname=u.pathname.slice(0,-suffix.length); if(!u.pathname.endsWith('/')) u.pathname += '/'; u.search=''; u.hash=''; if(mode !== 'home') u.searchParams.set('mode',mode); location.assign(u.toString()); }") private external fun reloadMode(mode: String)
 @JsFun("(id,redirect) => { try { const u=new URL(redirect); return /^[a-fA-F0-9]{32}$/.test(id) && u.origin === location.origin && u.pathname.endsWith('/oauth/spotify/callback') && !u.search && !u.hash && !u.username && !u.password && (u.protocol === 'https:' || (u.protocol === 'http:' && ['127.0.0.1','[::1]'].includes(u.hostname))); } catch {return false} }")
 private external fun validSetup(id: String, redirect: String): Boolean
 private fun validateSetup(id: String, redirect: String) { require(validSetup(id, redirect)) }
@@ -35,6 +37,7 @@ private fun validateSetup(id: String, redirect: String) { require(validSetup(id,
 fun main() {
     val client = HttpClient(Js) { install(HttpTimeout) { requestTimeoutMillis = 15_000 } }
     var model by mutableStateOf<AppModel?>(null)
+    var mode by mutableStateOf(when (initialMode()) { "hitster" -> AppMode.HITSTER; "bingo" -> AppMode.BINGO; else -> AppMode.HOME })
     var player: BrowserPlayer? = null
     var setupError by mutableStateOf<String?>(null)
     var poll: Job? = null
@@ -102,16 +105,21 @@ fun main() {
             }
         } catch (_: Throwable) { setupError = "Invalid setup or browser storage unavailable. Check client ID, callback URI and storage permissions."; appScope.cancel() }
     }
-    try {
-        readLocal("music-party.setup")?.let {
-            val config = Json.parseToJsonElement(it).jsonObject
-            install(config.getValue("clientId").jsonPrimitive.content, config.getValue("redirectUri").jsonPrimitive.content)
-        } ?: run {
-            if (clearOrphanCallback()) setupError = "Callback has no saved app setup. Configure the app and sign in again."
-        }
-    } catch (_: Throwable) { clearOrphanCallback(); setupError = "Saved setup could not be loaded. Enter the public app configuration again." }
+    fun enterHitster() {
+        mode = AppMode.HITSTER
+        try {
+            readLocal("music-party.setup")?.let {
+                val config = Json.parseToJsonElement(it).jsonObject
+                install(config.getValue("clientId").jsonPrimitive.content, config.getValue("redirectUri").jsonPrimitive.content)
+            } ?: run { if (clearOrphanCallback()) setupError = "Callback has no saved app setup. Configure the app and sign in again." }
+        } catch (_: Throwable) { clearOrphanCallback(); setupError = "Saved setup could not be loaded. Enter the public app configuration again." }
+    }
+    if (mode == AppMode.HITSTER) enterHitster()
     ComposeViewport(document.getElementById("compose-root")!!) {
-        MusicParty(model, setupError, { id, redirect ->
+        when (mode) {
+          AppMode.HOME -> ModeChooser { chosen -> reloadMode(if (chosen == AppMode.BINGO) "bingo" else "hitster") }
+          AppMode.BINGO -> PlexBingoScreen(client) { reloadMode("home") }
+          AppMode.HITSTER -> MusicParty(model, setupError, { id, redirect ->
             try {
                 validateSetup(id.trim(), redirect.trim())
                 writeLocal("music-party.setup", buildJsonObject { put("clientId", id.trim()); put("redirectUri", redirect.trim()) }.toString())
@@ -126,6 +134,7 @@ fun main() {
                     model?.dispose(); (player as? SpotifyBrowserPlayer)?.dispose()
                     model = null
                 }
-            })
+            }, { chosen -> reloadMode(if (chosen == AppMode.BINGO) "bingo" else "home") })
+        }
     }
 }
