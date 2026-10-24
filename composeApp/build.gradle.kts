@@ -10,6 +10,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":music-domain")); implementation(project(":spotify-api"))
+            implementation(project(":bingo-domain"))
             implementation(compose.runtime); implementation(compose.foundation); implementation(compose.material3)
             implementation(libs.serialization); implementation(libs.coroutines)
         }

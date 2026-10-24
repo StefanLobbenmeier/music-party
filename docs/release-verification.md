@@ -2,8 +2,11 @@
 
 **The GitHub Pages build is a technical preview.** Spotify's [Developer Policy, III.2](https://developer.spotify.com/policy)
 prohibits games including trivia. Applicability to this companion remains unresolved;
-technical verification grants no permission. No bingo rounds, scoring or game experience
-are implemented. Resolve the permitted product/integration before shipping. Review
+technical verification grants no permission. A provider-neutral Bingo engine and
+Plex-only browser/gateway flow are implemented. The local Ktor gateway uses Plex PIN/JWT
+authentication, keeps tokens in memory, discovers servers/libraries, lists tracks and
+proxies ranged audio. Spotify remains exclusive to QR scan mode. Live Plex account/server
+access and phone/browser local-network acceptance are still pending. Review
 privacy policy, branding, and streaming metadata/cover-art requirements before public use;
 the current track ID/link display is not a completed streaming compliance review.
 

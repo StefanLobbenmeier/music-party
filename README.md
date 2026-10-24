@@ -3,12 +3,17 @@
 Compose/Wasm Spotify scan and playback companion. The static app is published at
 <https://stefanlobbenmeier.github.io/music-party/>. Spotify's
 [game prohibition](https://developer.spotify.com/policy) remains unresolved for this
-use, so the hosted app should be treated as a technical preview. No bingo/game rounds
-are implemented. Live account, playlist and physical phone acceptance remain pending.
+use, so the hosted app should be treated as a technical preview. The new provider-neutral
+round engine is in `:bingo-domain`; Bingo uses Plex exclusively. The app now starts at a
+mode chooser and initializes Spotify only after entering QR mode. Bingo has its own
+Plex-only entry point backed by a local Ktor gateway for Plex PIN sign-in, library browsing
+and audio streaming. Live Plex account, server reachability and physical phone acceptance
+remain pending. The hosted version will update only after this change is merged/deployed.
 
 See [release verification and operations](docs/release-verification.md) for setup,
 scopes/allowlisting, exact commands, static hosting rules, browser limitations and
-live-test prerequisites. [Implementation plan](docs/implementation-plan.md),
+live-test prerequisites. See [Plex gateway setup](plex-gateway/README.md).
+[Implementation plan](docs/implementation-plan.md),
 [foundation feasibility](docs/feasibility.md) and [integration](docs/step-5-integration.md)
 preserve design and earlier evidence.
 
