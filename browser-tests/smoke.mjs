@@ -19,9 +19,9 @@ async function canvasVisible(page, locator) {
   }
   throw Error('Compose control could not be scrolled into view: ' + JSON.stringify(await locator.boundingBox()));
 }
-const click = async (page, name) => {
+const click = async (page, name, exact = true) => {
   await page.waitForTimeout(150);
-  const locator = page.getByRole('button', { name, exact: true });
+  const locator = page.getByRole('button', { name, exact });
   await canvasVisible(page, locator);
   const box = await locator.boundingBox();
   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
@@ -71,12 +71,29 @@ try {
   const context = await browser.newContext({ permissions: ['camera'] });
   page = await context.newPage();
   const errors = [];
+  const spotifyRequests = [];
   page.on('pageerror', error => errors.push(error.message));
+  page.on('request', request => {
+    if (/spotify\.com$|spotify\.com\/|scdn\.co$|scdn\.co\//.test(new URL(request.url()).hostname + new URL(request.url()).pathname))
+      spotifyRequests.push(request.url());
+  });
   await page.goto(origin);
+  await contains(page, 'Choose a mode');
+  await click(page, 'QR / Hitster', false);
+  await page.waitForURL(url => url.searchParams.get('mode') === 'hitster');
   await contains(page, 'Set up Spotify');
   assert.ok(await page.locator('canvas').count());
   await click(page, 'Save setup');
   await contains(page, '32-character public client ID');
+  await click(page, 'Bingo / Plex');
+  await page.waitForURL(url => url.searchParams.get('mode') === 'bingo');
+  await contains(page, 'Bingo · Plex');
+  assert.deepEqual(spotifyRequests, [], 'Bingo mode must not load Spotify endpoints or SDK');
+  await click(page, '← Modes');
+  await contains(page, 'Choose a mode');
+  await click(page, 'QR / Hitster', false);
+  await page.waitForURL(url => url.searchParams.get('mode') === 'hitster');
+  await contains(page, 'Set up Spotify');
   await click(page, 'Try fake providers (no Spotify)');
   await contains(page, 'Scan a card');
   await enter(page, 'https://evil.example/de/1');
@@ -162,7 +179,7 @@ try {
     return route.fulfill({status:200, contentType:'application/json', headers, body:JSON.stringify(body)});
   });
   await page.evaluate(() => sessionStorage.setItem('music-party.oauth.tokens', JSON.stringify({access:'fake-test-token',refresh:null,expires:Date.now()+3600000})));
-  await page.goto(origin);
+  await page.goto(origin + '?mode=hitster');
   await contains(page, 'Browser player unavailable');
   await contains(page, 'Mock remote device');
   await enter(page, 'www.hitstergame.com/de/1');
