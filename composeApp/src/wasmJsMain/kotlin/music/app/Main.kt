@@ -22,11 +22,11 @@ private external fun storageWrite(key: String, value: String?, tab: Boolean): Bo
 private fun readLocal(key: String): String? = storageRead(key, false).also { check(it != "__storage_denied__") { "Browser storage unavailable" } }
 private fun writeLocal(key: String, value: String) { check(storageWrite(key, value, false)) { "Browser storage unavailable" } }
 private fun removeLocal(key: String) { check(storageWrite(key, null, false)) { "Browser storage unavailable" } }
-@JsFun("() => { if(location.pathname !== '/oauth/spotify/callback' || !location.search) return false; history.replaceState(null,'',location.pathname); return true; }") private external fun clearOrphanCallback(): Boolean
-@JsFun("() => location.origin + '/oauth/spotify/callback'") private external fun defaultRedirect(): String
+@JsFun("() => { if(!location.pathname.endsWith('/oauth/spotify/callback') || !location.search) return false; history.replaceState(null,'',location.pathname); return true; }") private external fun clearOrphanCallback(): Boolean
+@JsFun("() => new URL('oauth/spotify/callback', document.baseURI).href") private external fun defaultRedirect(): String
 @JsFun("url => window.open(url, '_blank', 'noopener,noreferrer')") private external fun openSpotify(url: String)
 @JsFun("() => document.visibilityState === 'visible'") private external fun visible(): Boolean
-@JsFun("(id,redirect) => { try { const u=new URL(redirect); return /^[a-fA-F0-9]{32}$/.test(id) && u.origin === location.origin && u.pathname === '/oauth/spotify/callback' && !u.search && !u.hash && !u.username && !u.password && (u.protocol === 'https:' || (u.protocol === 'http:' && ['127.0.0.1','[::1]'].includes(u.hostname))); } catch {return false} }")
+@JsFun("(id,redirect) => { try { const u=new URL(redirect); return /^[a-fA-F0-9]{32}$/.test(id) && u.origin === location.origin && u.pathname.endsWith('/oauth/spotify/callback') && !u.search && !u.hash && !u.username && !u.password && (u.protocol === 'https:' || (u.protocol === 'http:' && ['127.0.0.1','[::1]'].includes(u.hostname))); } catch {return false} }")
 private external fun validSetup(id: String, redirect: String): Boolean
 private fun validateSetup(id: String, redirect: String) { require(validSetup(id, redirect)) }
 @JsFun("show => {document.getElementById('camera-panel').hidden = !show;}") private external fun showCamera(show: Boolean)
