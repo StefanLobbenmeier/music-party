@@ -11,7 +11,7 @@ export class BrowserAuth {
   constructor(clientId, redirectUri, env = window) {
     const redirect = new URL(redirectUri);
     if (!clientId || redirect.username || redirect.password || redirect.search || redirect.hash ||
-        redirect.pathname !== '/oauth/spotify/callback' ||
+        !redirect.pathname.endsWith('/oauth/spotify/callback') ||
         !(redirect.protocol === 'https:' || (redirect.protocol === 'http:' && ['127.0.0.1', '[::1]'].includes(redirect.hostname)))) throw Error('Invalid OAuth configuration');
     this.clientId = clientId; this.redirectUri = redirect.href; this.env = env; this.generation = 0;
   }

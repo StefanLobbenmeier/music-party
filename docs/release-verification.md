@@ -1,6 +1,6 @@
 # Release verification and operations (step 6)
 
-**Release is gated; nothing is deployed.** Spotify's [Developer Policy, III.2](https://developer.spotify.com/policy)
+**The GitHub Pages build is a technical preview.** Spotify's [Developer Policy, III.2](https://developer.spotify.com/policy)
 prohibits games including trivia. Applicability to this companion remains unresolved;
 technical verification grants no permission. No bingo rounds, scoring or game experience
 are implemented. Resolve the permitted product/integration before shipping. Review
@@ -87,13 +87,14 @@ card order. Card N means offset N−1: no sorting, shuffling, filtering or dedup
 null/local/episode/unavailable positions fail without shifting. Playlist edits invalidate
 alignment. Recheck settings/cards after any edit; no lookup cache is used.
 
-## Static host preparation (not deployment)
+## Static hosting
 
-Publish directory, only after separate release authorization:
+The GitHub Pages workflow publishes this directory after pushes to `main`:
 `composeApp/build/dist/wasmJs/productionExecutable`. Preserve every JS chunk/QR worker,
 Wasm binary, `index.html`, `_redirects`, `_headers`, and reference assets. No server,
-secret, Node runtime or Spotify token belongs in the artifact. Host at **origin root**;
-`<base href="/">` means subdirectory hosting is unsupported/unverified.
+secret, Node runtime or Spotify token belongs in the artifact. The workflow sets the
+document base to `/music-party/` and supplies `404.html` as the Pages fallback, allowing
+the OAuth callback route to load the app while keeping its query string.
 
 Cloudflare Pages or Netlify static hosting can consume the shipped rules:
 
@@ -103,8 +104,7 @@ Cloudflare Pages or Netlify static hosting can consume the shipped rules:
 
 This is an internal rewrite preserving the callback query, not a 301/302 redirect.
 For another host configure the equivalent exact path GET/HEAD rewrite; missing assets
-must stay 404 instead of returning HTML. Disable host automatic publishing until the
-external gates are resolved. There is deliberately no deploy workflow or provider token.
+must stay 404 instead of returning HTML. The Pages deployment needs no provider token.
 The checked `_headers` requests revalidation for all assets (including index and chunks),
 no MIME sniffing, no referrer, and same-origin camera permission. On other hosts apply
 equivalent headers. Serve Wasm as `application/wasm`, JS as JavaScript, enable gzip/Brotli,

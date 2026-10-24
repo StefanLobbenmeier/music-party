@@ -1,9 +1,10 @@
 # Music Party
 
-Compose/Wasm Spotify scan and playback companion. **Release is gated and nothing is
-deployed.** Spotify's [game prohibition](https://developer.spotify.com/policy) remains
-unresolved for this use. No bingo/game rounds are implemented. Live account, playlist
-and physical phone acceptance remain pending.
+Compose/Wasm Spotify scan and playback companion. The static app is published at
+<https://stefanlobbenmeier.github.io/music-party/>. Spotify's
+[game prohibition](https://developer.spotify.com/policy) remains unresolved for this
+use, so the hosted app should be treated as a technical preview. No bingo/game rounds
+are implemented. Live account, playlist and physical phone acceptance remain pending.
 
 See [release verification and operations](docs/release-verification.md) for setup,
 scopes/allowlisting, exact commands, static hosting rules, browser limitations and
@@ -27,5 +28,7 @@ Open `http://127.0.0.1:8092`. Enter a public client ID and exact registered call
 `http://127.0.0.1:8092/oauth/spotify/callback`, or select **Try fake providers** for a
 silent credential-free demo. No client secret is accepted. Gradle supplies its own
 Node/Yarn for builds; the browser commands require npm on PATH (see operations doc
-for the Gradle-installed Node path). CI requires no Spotify credentials. Deployment
-is a separate action; this repository has no publishing workflow.
+for the Gradle-installed Node path). CI requires no Spotify credentials. Pushes to
+`main` are published to GitHub Pages after the production Wasm build succeeds. For
+Spotify setup, register the exact callback
+`https://stefanlobbenmeier.github.io/music-party/oauth/spotify/callback`.
